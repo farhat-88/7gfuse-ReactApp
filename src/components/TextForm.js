@@ -1,29 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 
 export default function TextForm(props) {
     // react Hook For State Handler
-    // const [data , setData]=useState(null)
+    const [hostdata , setHostData]=useState({
+      value: ''
+    })
 
-    // // Fetch Function   
-    // fetch("./hostname.json").then(
-    //     function(res){
-    //     return res.json()
-    //     }).then(function(data){
-    //     // store Data in State Data Variable
-    //     console.log(data);
-    //     setData(data)
-    //     }).catch(
-    //     function(err){
-    //         console.log(err, ' error')
-    //     }
-    // )
+   useEffect(() => {
+      fetch("./hostname.json")
+        .then(res => res.json())
+        .then(function(data){
+         
+            console.log(data)
+            //setIsLoaded(true);
+            setHostData(data);
+          }).catch(
+                function(err){
+                    console.log(err, ' error')
+                }
+        )
+    }, [])
 
-    const [inputValue, setInputValue] = useState(''); //for functional component
-    const inputHandler = (event) => setInputValue(event.target.value);
+   // const [inputValue, setInputValue] = useState(''); //for functional component
+    const inputHandler = (event) => setHostData(event.target.value);
 
     const handleOnClick = () => {
-        if (inputValue.length > 0 ){
+        if (hostdata.length > 0 || hostdata.length === undefined){
             props.showAlert("Successfully Updated", "success");
         }else{
             props.showAlert("Hostname is required", "danger");
@@ -54,11 +57,11 @@ export default function TextForm(props) {
                     <div className="card-body">
                         <form className="form-horizontal mt-2">
                             <div className="col-sm-12 col-md-8">
-                            {/* { */}
-                            {/* // use data State Variable For Get Data Use JavaScript Map Mathod
-                                data? data.map(
-                                    function(data){
-                                            return ( */}
+                            {/* {
+                            // use data State Variable For Get Data Use JavaScript Map Mathod
+                                hostdata? hostdata.map(
+                                    function(hostdata){
+                                            return (  */}
                                                 <div className="form-group row">
                                                     <div className="col-sm-12 col-md-4 col-lg-4 col-form-label">
                                                         <label className="mx-3">Hostname</label>
@@ -68,14 +71,14 @@ export default function TextForm(props) {
                                                     </div>
                                                     <div className="col-sm-12 col-md-6">
                                                         {/* <input type="text" name="hostname" className="form-control"  /> */}
-                                                        <input type='text' className="form-control" value={inputValue} onChange={inputHandler} />
+                                                        <input type='text' className="form-control" value={hostdata.value} onChange={inputHandler} />
                                                     </div>
                                                 </div>
                                             {/* )
-                                    }
+                                            }
                                     ):""
-                                }                           */}
-                              
+                                }                           
+                               */}
                             
                             </div>
                         </form>

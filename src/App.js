@@ -49,8 +49,9 @@ function App() {
     <Switch>
     {/* /users --> Component 1
         /users/home --> Component 2 */}
+     
          <Route exact path="/item">
-            <Item />
+            <Item showAlert={showAlert}/>
           </Route>
           <Route exact path="/about">
             <About />
